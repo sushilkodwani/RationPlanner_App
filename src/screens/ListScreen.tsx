@@ -25,7 +25,7 @@ export function ListScreen({ id, cat }: { id: string; cat: string | null }) {
 
   if (!list) {
     return (
-      <div className="px-4 pt-4">
+      <div className="top-pad px-4">
         <button className="btn-soft mb-4" onClick={() => go('lists', true)}>
           ← Lists
         </button>
@@ -53,7 +53,7 @@ export function ListScreen({ id, cat }: { id: string; cat: string | null }) {
 
   return (
     <div className="pb-6">
-      <div className="sticky top-0 z-20 bg-stone-100/95 px-4 pb-2 pt-3 backdrop-blur dark:bg-stone-950/95">
+      <div className="top-pad-sm sticky top-0 z-20 border-b border-stone-200/70 bg-stone-100 px-4 pb-3 dark:border-stone-800 dark:bg-stone-950">
         <div className="flex items-center gap-2">
           <button aria-label="Back" className="btn-soft !px-3" onClick={() => go('lists')}>
             ←
@@ -94,7 +94,7 @@ export function ListScreen({ id, cat }: { id: string; cat: string | null }) {
         </div>
       </div>
 
-      <div className="px-4">
+      <div className="px-4 pt-3">
         {list.locked && (
           <p className="mb-3 rounded-xl bg-amber-100 px-3 py-2 text-sm text-amber-900 dark:bg-amber-900/30 dark:text-amber-100">
             🔒 Locked{nameOf(list.lockedBy) ? ` by ${nameOf(list.lockedBy)}` : ''}. {can.lock ? 'Tap the lock to edit again.' : 'Nobody can edit until it is unlocked.'}

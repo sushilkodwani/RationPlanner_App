@@ -29,14 +29,14 @@ export default function App() {
     return () => navigator.serviceWorker?.removeEventListener('message', on)
   }, [])
 
-  if (phase === 'boot') return <div className="flex min-h-screen items-center justify-center text-4xl">🧺</div>
+  if (phase === 'boot') return <div className="flex min-h-dvh items-center justify-center text-4xl">🧺</div>
   if (phase === 'out') return <ConnectScreen />
 
   const tab = TABS.find((t) => t.id === route.parts[0])?.id ?? 'lists'
   const inList = tab === 'lists' && route.parts[1]
 
   return (
-    <div className="mx-auto min-h-screen max-w-2xl">
+    <div className="mx-auto min-h-dvh max-w-2xl">
       <UpdatePrompt />
       {!inList && !(tab === 'settings' && route.parts[1]) && <Header title={TABS.find((t) => t.id === tab)!.label} />}
       <main className="pb-28">
@@ -66,7 +66,7 @@ function Header({ title }: { title: string }) {
   const { sync, notice, clearNotice } = useApp()
   const status = sync.error ? { text: sync.error, tone: 'bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-100' } : sync.offline ? { text: sync.pending ? `Offline · ${sync.pending} change${sync.pending === 1 ? '' : 's'} waiting` : 'Offline · showing saved data', tone: 'bg-amber-100 text-amber-900 dark:bg-amber-900/30 dark:text-amber-100' } : sync.pending || sync.saving ? { text: 'Saving…', tone: 'bg-stone-200 text-stone-700 dark:bg-stone-800 dark:text-stone-200' } : null
   return (
-    <header className="pt-safe px-4 pb-3 pt-4">
+    <header className="top-pad px-4 pb-3">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">{title}</h1>
         {status && <span className={`chip max-w-[60%] truncate ${status.tone}`}>{status.text}</span>}

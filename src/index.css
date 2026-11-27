@@ -58,8 +58,12 @@ html.dark {
 .pb-safe {
   padding-bottom: env(safe-area-inset-bottom);
 }
-.pt-safe {
-  padding-top: env(safe-area-inset-top);
+/* Top padding that keeps clear of the notch / status bar in the installed app. */
+.top-pad {
+  padding-top: calc(env(safe-area-inset-top, 0px) + 1rem);
+}
+.top-pad-sm {
+  padding-top: calc(env(safe-area-inset-top, 0px) + 0.75rem);
 }
 
 /* Chart colours: one set per theme, assigned to categories in a fixed order. */

@@ -5,11 +5,19 @@ export function Sheet({ title, onClose, children }: { title: string; onClose: ()
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose()
     window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
+    // Keep the page behind from scrolling while the form is open.
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      window.removeEventListener('keydown', onKey)
+      document.body.style.overflow = prev
+    }
   }, [onClose])
+  // Sits near the TOP on phones so the keyboard never covers the fields, and is capped to the
+  // visible height (dvh) so its title and close button never slide off-screen.
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/50 sm:items-center" onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
-      <div role="dialog" aria-modal="true" aria-label={title} className="pb-safe max-h-[92vh] w-full max-w-md overflow-y-auto rounded-t-3xl bg-stone-50 p-5 shadow-xl dark:bg-stone-900 sm:rounded-3xl">
+    <div className="top-pad-sm fixed inset-0 z-50 flex items-start justify-center bg-black/50 px-3 sm:items-center" onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
+      <div role="dialog" aria-modal="true" aria-label={title} className="max-h-[calc(100dvh-5rem)] w-full max-w-md overflow-y-auto overscroll-contain rounded-3xl bg-stone-50 p-5 shadow-xl dark:bg-stone-900">
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-lg font-semibold">{title}</h2>
           <button aria-label="Close" className="btn-soft !px-3 !py-1.5" onClick={onClose}>

@@ -28,7 +28,7 @@ export function UsersScreen() {
   }
 
   return (
-    <div className="px-4 pb-8">
+    <div className="top-pad px-4 pb-8">
       <div className="mb-4 flex items-center gap-2">
         <button aria-label="Back" className="btn-soft !px-3" onClick={() => go('settings')}>
           ←
@@ -48,7 +48,7 @@ export function UsersScreen() {
                 <div className="font-semibold">
                   {u.name} {u.id === me?.id && <span className="muted text-xs font-normal">(you)</span>}
                 </div>
-                <select className="input !w-auto !py-1.5 text-sm" value={u.role} disabled={lastAdmin} onChange={(e) => run((all) => all.map((x) => (x.id === u.id ? { ...x, role: e.target.value as Role } : x)))}>
+                <select className="input !w-auto !py-1.5" value={u.role} disabled={lastAdmin} onChange={(e) => run((all) => all.map((x) => (x.id === u.id ? { ...x, role: e.target.value as Role } : x)))}>
                   {ROLES.map((r) => (
                     <option key={r} value={r}>
                       {ROLE_LABEL[r]}

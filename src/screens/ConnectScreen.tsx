@@ -31,7 +31,7 @@ export function ConnectScreen() {
   }
 
   return (
-    <div className="pt-safe pb-safe mx-auto flex min-h-screen max-w-md flex-col justify-center px-6">
+    <div className="top-pad pb-safe mx-auto flex min-h-dvh max-w-md flex-col justify-center px-6">
       <img src="./icon.svg" alt="" className="mx-auto h-20 w-20 rounded-2xl shadow" />
       <h1 className="mt-4 text-center text-2xl font-bold">Ration Planner</h1>
       <p className="muted mt-1 text-center text-sm">One shared list for ration, fruits and vegetables.</p>
