@@ -1,0 +1,56 @@
+# Copy this file into the PRIVATE DATA repo as .github/workflows/notify.yml
+# (not into the app repo). See notifier/README.md.
+name: Notify on list changes
+
+on:
+  push:
+    # Any list change. The notifier's own commits touch only push/, so they never loop.
+    paths:
+      - 'lists/**'
+  workflow_dispatch:
+    inputs:
+      message:
+        description: 'Send this test message to every subscribed device'
+        default: 'Test notification from Ration Planner 🛒'
+
+permissions:
+  contents: write
+
+# Batching: every edit starts a run that first waits 2 minutes. A newer edit cancels the
+# run that is still waiting, so only the run started by the LAST edit survives: one
+# summary, 2 minutes after the last change.
+concurrency:
+  group: notify
+  cancel-in-progress: true
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Wait 2 minutes for more edits
+        if: github.event_name == 'push'
+        run: sleep 120
+
+      - uses: actions/checkout@v4
+        with:
+          # Latest tip of the branch, not the commit that triggered this run.
+          ref: ${{ github.ref }}
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install web-push
+        working-directory: notify
+        run: npm install --no-audit --no-fund
+
+      - name: Send notifications
+        run: node notify/notify.mjs
+        env:
+          VAPID_PUBLIC_KEY: ${{ secrets.VAPID_PUBLIC_KEY }}
+          VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
+          VAPID_SUBJECT: ${{ secrets.VAPID_SUBJECT }}
+          BEFORE_SHA: ${{ github.event.before }}
+          TEST_MESSAGE: ${{ github.event.inputs.message }}

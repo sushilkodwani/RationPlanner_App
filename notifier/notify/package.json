@@ -1,0 +1,9 @@
+{
+  "name": "ration-planner-notifier",
+  "private": true,
+  "type": "module",
+  "description": "Sends one batched Web Push after list changes settle. Runs in the data repo's GitHub Action.",
+  "dependencies": {
+    "web-push": "3.6.7"
+  }
+}
